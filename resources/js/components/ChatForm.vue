@@ -1,17 +1,10 @@
 <template>
   <div class="input-group">
-    <input
-      id="btn-input"
-      type="text"
-      name="message"
-      class="form-control input-sm"
-      placeholder="Type your message here..."
-      v-model="newMessage"
-      @keyup.enter="sendMessage"
-    />
+    <input id="btn-input" type="text" name="message" class="form-control input-sm"
+      placeholder="Type your message here..." v-model="newMessage" required @keyup.enter="sendMessage" />
 
     <span class="input-group-btn">
-      <button class="btn btn-primary btn-sm" id="btn-chat" @click="sendMessage">
+      <button :disabled="isBtnDisabled" class="btn btn-primary btn-sm" id="btn-chat" @click="sendMessage">
         Send
       </button>
     </span>
@@ -31,12 +24,17 @@ export default {
       //Emit a "messagesent" event including the user who sent the message along with the message content
       this.$emit("messagesent", {
         user: this.user,
-      //newMessage is bound to the earlier "btn-input" input field
+        //newMessage is bound to the earlier "btn-input" input field
         message: this.newMessage,
       });
       //Clear the input
       this.newMessage = "";
     },
   },
+  computed: {
+    isBtnDisabled() {
+      return !this.newMessage;
+    }
+  }
 };
 </script>
